@@ -40,6 +40,11 @@
     .quest-table-fusion .quest-empty {
       opacity: 0.7;
     }
+
+    .quest-table-fusion .bonus-row {
+      text-align: center;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -54,6 +59,8 @@
       "Expert (121 à 160 p.m)",
       "Maître (161 à 200 p.m)"
     ];
+
+    const bonusText = "Bonus (en cas de bons RPs : 1 Os doré ET/OU 5 p.m bonus) selon la qualité.";
 
     const resources = [
       {
@@ -171,6 +178,9 @@
                 ${resource.values.map(value => `<td>${renderCell(value)}</td>`).join("")}
               </tr>
             `).join("")}
+            <tr>
+              <td colspan="6" class="bonus-row">${escapeHtml(bonusText)}</td>
+            </tr>
           </table>
         </div>
       `;
@@ -185,6 +195,9 @@
             </tr>
             <tr>
               ${resource.values.map(value => `<td>${renderCell(value)}</td>`).join("")}
+            </tr>
+            <tr>
+              <td colspan="5" class="bonus-row">${escapeHtml(bonusText)}</td>
             </tr>
           </table>
         </div>
