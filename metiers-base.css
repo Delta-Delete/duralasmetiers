@@ -1,0 +1,208 @@
+body {
+  color: #dbcca8;
+  background: transparent;
+}
+
+.quest-accordion {
+  width: 100%;
+  margin: 0 auto;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #dbcca8;
+}
+
+.quest-accordion .title,
+.title {
+  margin: 0 0 12px 0;
+  padding: 10px 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  border: 1px solid rgba(247, 233, 201, 0.25);
+  background: linear-gradient(to right, rgba(247, 233, 201, 0.10), rgba(247, 233, 201, 0.03));
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
+}
+
+.quest-accordion details {
+  margin: 8px 0;
+  border: 1px solid rgba(247, 233, 201, 0.22);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.10);
+}
+
+.quest-accordion summary {
+  cursor: pointer;
+  padding: 10px 14px;
+  font-weight: 700;
+  list-style: none;
+  color: #ffffff;
+  background: linear-gradient(to right, rgba(247, 233, 201, 0.08), rgba(247, 233, 201, 0.02));
+  transition: background 0.2s ease;
+}
+
+.quest-accordion summary:hover {
+  background: linear-gradient(to right, rgba(247, 233, 201, 0.14), rgba(247, 233, 201, 0.04));
+}
+
+.quest-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.quest-accordion summary::before {
+  content: "✦ ";
+  color: #f7e9c9;
+}
+
+.quest-accordion details[open] summary::before {
+  content: "✧ ";
+  color: #ffffff;
+}
+
+.quest-scroll {
+  width: 100%;
+  max-height: 800px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.quest-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  color: #dbcca8;
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.quest-table th,
+.quest-table td {
+  padding: 9px 10px;
+  vertical-align: top;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  border-right: 1px solid rgba(247, 233, 201, 0.16);
+  border-bottom: 1px solid rgba(247, 233, 201, 0.16);
+}
+
+.quest-table tr:last-child td,
+.quest-table tr:last-child th {
+  border-bottom: none;
+}
+
+.quest-table th:last-child,
+.quest-table td:last-child {
+  border-right: none;
+}
+
+.quest-table th {
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(247, 233, 201, 0.07);
+}
+
+.quest-table td:first-child,
+.quest-table th:first-child {
+  width: 170px;
+}
+
+.quest-table tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.quest-table tr:hover td {
+  background: rgba(247, 233, 201, 0.04);
+}
+
+.quest-table strong {
+  color: #f7e9c9;
+  font-weight: 700;
+}
+
+.quest-members {
+  padding: 8px;
+  border-top: 1px solid rgba(247, 233, 201, 0.14);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.quest-members details {
+  margin: 0;
+  border: 1px solid rgba(247, 233, 201, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  box-shadow: none;
+}
+
+.quest-members summary {
+  padding: 8px 10px;
+  font-weight: 700;
+  color: #f7e9c9;
+  background: rgba(247, 233, 201, 0.04);
+}
+
+.quest-members summary:hover {
+  background: rgba(247, 233, 201, 0.07);
+}
+
+.quest-members-list {
+  padding: 10px;
+  border-top: 1px solid rgba(247, 233, 201, 0.14);
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: #dbcca8;
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.mentions-auto {
+  color: inherit;
+}
+
+.quest-accordion a,
+.quest-accordion a:link {
+  color: #f7e9c9;
+}
+
+.quest-accordion a:visited,
+.quest-accordion a:active {
+  color: #f7e9c9;
+}
+
+.quest-accordion a:hover {
+  color: #ffffff;
+}
+
+.forum-mention,
+.forum-mention:link,
+.forum-mention:visited,
+.forum-mention:active {
+  color: #f7e9c9;
+  text-decoration: none;
+}
+
+.forum-mention:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.quest-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.quest-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+}
+
+.quest-scroll::-webkit-scrollbar-thumb {
+  background: rgba(247, 233, 201, 0.25);
+  border-radius: 10px;
+}
+
+.quest-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(247, 233, 201, 0.40);
+}
