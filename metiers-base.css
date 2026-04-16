@@ -9,6 +9,7 @@ body {
   font-size: 13px;
   line-height: 1.45;
   color: #dbcca8;
+  overflow-x: hidden;
 }
 
 .quest-accordion .title,
@@ -129,7 +130,6 @@ body {
 
 .quest-table.quest-table-ressources {
   width: 100%;
-  max-width: 685px;
   table-layout: fixed;
   margin: 0 auto;
 }
@@ -139,21 +139,22 @@ body {
   text-align: center;
   vertical-align: middle;
   padding: 6px 8px;
+  font-size: clamp(9px, 1.8vw, 13px);
 }
 
 .quest-table.quest-table-ressources th:first-child,
 .quest-table.quest-table-ressources td:first-child {
-  width: 145px;
+  width: 21.17%;
 }
 
 .quest-table.quest-table-ressources th:not(:first-child),
 .quest-table.quest-table-ressources td:not(:first-child) {
-  width: 135px;
+  width: 19.71%;
 }
 
 .quest-table.quest-table-ressources th.quest-empty-col,
 .quest-table.quest-table-ressources td.quest-empty-col {
-  width: 90px;
+  width: 13.14%;
   padding: 4px 6px;
 }
 
