@@ -143,12 +143,17 @@ body {
 .quest-table.quest-table-ressources td {
   text-align: center;
   vertical-align: middle;
-  padding: 4px 5px;
-  font-size: clamp(8px, 1.4vw, 12px);
+  padding: 8px 4px;
+  font-size: clamp(9px, 1.8vw, 14px);
+  line-height: 1.25;
   white-space: normal;
   overflow-wrap: anywhere;
   word-break: break-word;
   box-sizing: border-box;
+}
+
+.quest-table.quest-table-ressources th {
+  font-size: clamp(8px, 1.5vw, 12px);
 }
 
 .quest-table.quest-table-ressources th:first-child,
@@ -164,11 +169,11 @@ body {
 .quest-table.quest-table-ressources th.quest-empty-col,
 .quest-table.quest-table-ressources td.quest-empty-col {
   width: 12%;
-  padding: 4px;
+  padding: 6px 4px;
 }
 
 .quest-table.quest-table-ressources td.quest-empty {
-  padding: 4px;
+  padding: 6px 4px;
 }
 
 .quest-members {
