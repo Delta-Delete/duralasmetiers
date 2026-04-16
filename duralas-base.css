@@ -1,0 +1,78 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+body {
+  font-family: 'Philosopher', serif;
+  font-size: 12px;
+  color: #dbcca8;
+  line-height: 1.4;
+}
+
+a,
+a:link {
+  color: #f7e9c9;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #f7e9c9;
+}
+
+a:active {
+  color: #f7e9c9;
+}
+
+a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6,
+.title,
+.message-title,
+.category-title {
+  margin: 0 0 8px 0;
+  font-family: 'Philosopher', serif;
+  font-size: 15px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+p {
+  margin: 0 0 10px 0;
+}
+
+blockquote,
+.quote,
+.citation {
+  color: #f2e2bf;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  padding: 4px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  border: 1px solid #999;
+}
+
+td {
+  padding: 4px;
+  font-size: 12px;
+  color: #dbcca8;
+  border: 1px solid #999;
+}
+
+small {
+  font-size: 11px;
+}
