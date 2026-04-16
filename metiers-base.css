@@ -145,6 +145,17 @@ body {
   width: auto;
 }
 
+.quest-table.quest-table-ressources th.quest-empty-col,
+.quest-table.quest-table-ressources td.quest-empty-col {
+  width: 90px;
+  padding: 4px 6px;
+}
+
+.quest-table.quest-table-ressources td.quest-empty {
+  padding: 4px 6px;
+  min-width: 24px;
+}
+
 .quest-members {
   padding: 8px;
   border-top: 1px solid rgba(247, 233, 201, 0.14);
