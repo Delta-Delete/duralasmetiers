@@ -1,5 +1,5 @@
 (function () {
-  const MEMBER_LIST_URL = "liste_membres.html";
+  const MEMBER_LIST_URL = new URL("liste_membres.html", document.currentScript.src).href;
 
   function normalizeName(str) {
     return String(str || "")
