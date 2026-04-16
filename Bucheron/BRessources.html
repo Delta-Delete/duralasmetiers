@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <base target="_top">
+
+  <title>BRessources</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../duralas-base.css">
+  <link rel="stylesheet" href="../metiers-base.css">
+
+  <script src="../mentions-autolink.js" defer></script>
+
+  <style>
+    body {
+      margin: 0;
+      background: transparent;
+    }
+
+    .ressources-wrap {
+      width: 100%;
+    }
+
+    .quest-table-fusion .resource-name {
+      white-space: nowrap;
+      font-weight: 700;
+    }
+
+    .quest-table-fusion .res-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .quest-table-fusion .quest-empty {
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ressources-wrap" id="app"></div>
+
+  <script>
+    const tiers = [
+      "Novice (0 à 40 p.m)",
+      "Apprenti (41 à 80 p.m)",
+      "Compagnon (81 à 120 p.m)",
+      "Expert (121 à 160 p.m)",
+      "Maître (161 à 200 p.m)"
+    ];
+
+    const resources = [
+      {
+        key: "sureau",
+        label: "Sureau",
+        values: [
+          [
+            "0 à 10 p.m : 5/RP",
+            "11 à 20 p.m : 10/RP",
+            "21 à 30 p.m : 15/RP",
+            "31 à 40 p.m : 20/RP"
+          ],
+          "20/RP",
+          "20/RP",
+          "20/RP",
+          "20/RP"
+        ]
+      },
+      {
+        key: "cerisier",
+        label: "Cerisier",
+        values: [
+          "/",
+          [
+            "41 à 50 p.m : 5/RP",
+            "51 à 60 p.m : 10/RP",
+            "61 à 70 p.m : 15/RP",
+            "71 à 80 p.m : 20/RP"
+          ],
+          "20/RP",
+          "20/RP",
+          "20/RP"
+        ]
+      },
+      {
+        key: "sapin",
+        label: "Sapin",
+        values: [
+          "/",
+          "/",
+          [
+            "81 à 90 p.m : 5/RP",
+            "91 à 100 p.m : 10/RP",
+            "101 à 110 p.m : 15/RP",
+            "111 à 120 p.m : 20/RP"
+          ],
+          "20/RP",
+          "20/RP"
+        ]
+      },
+      {
+        key: "chene",
+        label: "Chêne",
+        values: [
+          "/",
+          "/",
+          "/",
+          [
+            "121 à 130 p.m : 5/RP",
+            "131 à 140 p.m : 10/RP",
+            "141 à 150 p.m : 15/RP",
+            "151 à 160 p.m : 20/RP"
+          ],
+          "20/RP"
+        ]
+      },
+      {
+        key: "baobab",
+        label: "Baobab",
+        values: [
+          "/",
+          "/",
+          "/",
+          "/",
+          [
+            "161 à 170 p.m : 5/RP",
+            "171 à 180 p.m : 10/RP",
+            "181 à 190 p.m : 15/RP",
+            "191 à 200 p.m : 20/RP"
+          ]
+        ]
+      }
+    ];
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function renderCell(value) {
+      if (Array.isArray(value)) {
+        return `<div class="res-lines">${value.map(line => `<div>${escapeHtml(line)}</div>`).join("")}</div>`;
+      }
+      if (value === "/") {
+        return `<span class="quest-empty">/</span>`;
+      }
+      return escapeHtml(value);
+    }
+
+    function renderAllTable() {
+      return `
+        <div class="quest-accordion">
+          <table class="quest-table quest-table-ressources quest-table-fusion">
+            <tr>
+              <th>Bois</th>
+              ${tiers.map(t => `<th>${escapeHtml(t)}</th>`).join("")}
+            </tr>
+            ${resources.map(resource => `
+              <tr>
+                <td class="resource-name">${escapeHtml(resource.label)}</td>
+                ${resource.values.map(value => `<td>${renderCell(value)}</td>`).join("")}
+              </tr>
+            `).join("")}
+          </table>
+        </div>
+      `;
+    }
+
+    function renderSingleTable(resource) {
+      return `
+        <div class="quest-accordion">
+          <table class="quest-table quest-table-ressources quest-table-fusion">
+            <tr>
+              ${tiers.map(t => `<th>${escapeHtml(t)}</th>`).join("")}
+            </tr>
+            <tr>
+              ${resource.values.map(value => `<td>${renderCell(value)}</td>`).join("")}
+            </tr>
+          </table>
+        </div>
+      `;
+    }
+
+    function init() {
+      const app = document.getElementById("app");
+      const params = new URLSearchParams(window.location.search);
+      const resKey = (params.get("res") || "").toLowerCase();
+
+      if (!resKey) {
+        app.innerHTML = renderAllTable();
+        return;
+      }
+
+      const aliases = {
+        sureau: "sureau",
+        cerisier: "cerisier",
+        sapin: "sapin",
+        chene: "chene",
+        chêne: "chene",
+        baobab: "baobab"
+      };
+
+      const normalizedKey = aliases[resKey] || resKey;
+      const resource = resources.find(r => r.key === normalizedKey);
+
+      if (!resource) {
+        app.innerHTML = `<p>Ressource introuvable.</p>`;
+        return;
+      }
+
+      app.innerHTML = renderSingleTable(resource);
+    }
+
+    init();
+  </script>
+
+</body>
+</html>
