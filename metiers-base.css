@@ -153,7 +153,9 @@ body {
 }
 
 .quest-table.quest-table-ressources th {
-  font-size: clamp(8px, 1.5vw, 12px);
+  font-size: clamp(9px, 1.8vw, 13px);
+  line-height: 1.2;
+  padding: 8px 4px;
 }
 
 .quest-table.quest-table-ressources th:first-child,
