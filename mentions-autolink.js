@@ -30,8 +30,39 @@
     return map;
   }
 
+  function resolveMemberUrl(rawName, membersMap) {
+    const normalizedRawName = normalizeName(rawName);
+
+    // 1) Correspondance exacte
+    const exactUrl = membersMap.get(normalizedRawName);
+    if (exactUrl) {
+      return exactUrl;
+    }
+
+    // 2) Fallback : correspondance partielle unique
+    // Ex. "constantin" => "constantin von darken"
+    const candidates = [];
+
+    for (const [memberName, url] of membersMap.entries()) {
+      if (
+        memberName.startsWith(normalizedRawName + " ") ||
+        memberName.startsWith(normalizedRawName + "-")
+      ) {
+        candidates.push(url);
+      }
+    }
+
+    // On ne lie que si un seul membre correspond
+    if (candidates.length === 1) {
+      return candidates[0];
+    }
+
+    return null;
+  }
+
   function buildMentionLink(fullText, rawName, membersMap) {
-    const url = membersMap.get(normalizeName(rawName));
+    const url = resolveMemberUrl(rawName, membersMap);
+
     if (!url) {
       return document.createTextNode(fullText);
     }
