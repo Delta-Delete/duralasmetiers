@@ -36,7 +36,7 @@
   <div id="embed-error"></div>
 
   <script>
-    (function () {
+    (async function () {
       const iframe = document.getElementById("embed-frame");
       const errorBox = document.getElementById("embed-error");
       const params = new URLSearchParams(window.location.search);
@@ -54,7 +54,21 @@
         return;
       }
 
-      iframe.src = page;
+      async function getGlobalVersion() {
+        try {
+          const res = await fetch("./version.json", { cache: "no-store" });
+          if (!res.ok) return Date.now();
+          const data = await res.json();
+          return data.version || Date.now();
+        } catch (e) {
+          return Date.now();
+        }
+      }
+
+      function withVersion(url, version) {
+        const sep = url.includes("?") ? "&" : "?";
+        return url + sep + "_embedv=" + encodeURIComponent(version);
+      }
 
       function getInnerDoc() {
         try {
@@ -171,6 +185,9 @@
           });
         } catch (e) {}
       }
+
+      const version = await getGlobalVersion();
+      iframe.src = withVersion(page, version);
 
       iframe.addEventListener("load", () => {
         scheduleHeightChecks();
