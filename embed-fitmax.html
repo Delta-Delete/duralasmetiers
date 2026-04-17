@@ -89,9 +89,18 @@
         return Math.max(
           body ? body.scrollHeight : 0,
           body ? body.offsetHeight : 0,
+          body ? body.clientHeight : 0,
           html ? html.scrollHeight : 0,
-          html ? html.offsetHeight : 0
+          html ? html.offsetHeight : 0,
+          html ? html.clientHeight : 0
         );
+      }
+
+      function postResize(height) {
+        window.parent.postMessage({
+          type: "duralasmetiers:resize",
+          height: height
+        }, "*");
       }
 
       function applyHeight() {
@@ -102,12 +111,12 @@
         const oldScrolling = iframe.getAttribute("scrolling") || "no";
         const oldOverflow = iframe.style.overflow || "hidden";
 
-        /* On neutralise le viewport avant de mesurer pour permettre le rétrécissement */
         iframe.setAttribute("scrolling", "no");
         iframe.style.overflow = "hidden";
         iframe.style.height = "1px";
 
         const contentHeight = getInnerHeight();
+
         if (!contentHeight) {
           iframe.style.height = oldHeight;
           iframe.setAttribute("scrolling", oldScrolling);
@@ -122,10 +131,7 @@
         iframe.setAttribute("scrolling", needsScroll ? "auto" : "no");
         iframe.style.overflow = needsScroll ? "auto" : "hidden";
 
-        window.parent.postMessage({
-          type: "duralasmetiers:resize",
-          height: effectiveHeight
-        }, "*");
+        postResize(effectiveHeight);
       }
 
       function scheduleHeightChecks() {
@@ -134,6 +140,7 @@
         setTimeout(applyHeight, 80);
         setTimeout(applyHeight, 180);
         setTimeout(applyHeight, 350);
+        setTimeout(applyHeight, 700);
       }
 
       function bindDetails(doc) {
@@ -200,6 +207,14 @@
         } catch (e) {}
       }
 
+      window.addEventListener("message", (event) => {
+        if (!event.data) return;
+
+        if (event.data.type === "duralasmetiers:requestResize") {
+          scheduleHeightChecks();
+        }
+      });
+
       const version = await getGlobalVersion();
       iframe.src = withVersion(page, version);
 
@@ -207,6 +222,9 @@
         scheduleHeightChecks();
         installObservers();
       });
+
+      window.addEventListener("load", scheduleHeightChecks);
+      document.addEventListener("DOMContentLoaded", scheduleHeightChecks);
     })();
   </script>
 
