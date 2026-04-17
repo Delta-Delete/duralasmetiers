@@ -17,6 +17,7 @@
       width: 100%;
       border: 0;
       background: transparent;
+      overflow: hidden;
     }
 
     #embed-error {
@@ -97,12 +98,20 @@
         const doc = getInnerDoc();
         if (!doc) return;
 
-        const previousHeight = iframe.style.height;
+        const oldHeight = iframe.style.height;
+        const oldScrolling = iframe.getAttribute("scrolling") || "no";
+        const oldOverflow = iframe.style.overflow || "hidden";
+
+        /* On neutralise le viewport avant de mesurer pour permettre le rétrécissement */
+        iframe.setAttribute("scrolling", "no");
+        iframe.style.overflow = "hidden";
         iframe.style.height = "1px";
 
         const contentHeight = getInnerHeight();
         if (!contentHeight) {
-          iframe.style.height = previousHeight;
+          iframe.style.height = oldHeight;
+          iframe.setAttribute("scrolling", oldScrolling);
+          iframe.style.overflow = oldOverflow;
           return;
         }
 
@@ -203,5 +212,3 @@
 
 </body>
 </html>
-
-<!-- <iframe src="https://delta-delete.github.io/duralasmetiers/embed-fitmax.html?page=Bricoleur/BricoleurCrafts.html&max=800" style="width:100%;height:800px;border:none;"></iframe> -->
