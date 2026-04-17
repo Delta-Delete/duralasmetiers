@@ -9,7 +9,6 @@
       margin: 0;
       padding: 0;
       background: transparent;
-      overflow: hidden;
     }
 
     #embed-frame {
@@ -17,7 +16,6 @@
       width: 100%;
       border: 0;
       background: transparent;
-      overflow: hidden;
     }
 
     #embed-error {
@@ -41,6 +39,10 @@
       const errorBox = document.getElementById("embed-error");
       const params = new URLSearchParams(window.location.search);
       const page = params.get("page");
+      const allowScroll = params.get("scroll") === "1";
+
+      document.documentElement.style.overflow = allowScroll ? "auto" : "hidden";
+      document.body.style.overflow = allowScroll ? "auto" : "hidden";
 
       if (!page) {
         errorBox.style.display = "block";
@@ -108,6 +110,15 @@
         setTimeout(sendHeight, 350);
       }
 
+      function bindDetails(doc) {
+        doc.querySelectorAll("details").forEach((detail) => {
+          if (!detail.dataset.duralasToggleBound) {
+            detail.dataset.duralasToggleBound = "1";
+            detail.addEventListener("toggle", scheduleHeightChecks);
+          }
+        });
+      }
+
       function installObservers() {
         const doc = getInnerDoc();
         if (!doc) return;
@@ -148,20 +159,10 @@
         } catch (e) {}
 
         try {
-          doc.querySelectorAll("details").forEach((detail) => {
-            if (!detail.dataset.duralasToggleBound) {
-              detail.dataset.duralasToggleBound = "1";
-              detail.addEventListener("toggle", scheduleHeightChecks);
-            }
-          });
+          bindDetails(doc);
 
           const mo = new MutationObserver(() => {
-            doc.querySelectorAll("details").forEach((detail) => {
-              if (!detail.dataset.duralasToggleBound) {
-                detail.dataset.duralasToggleBound = "1";
-                detail.addEventListener("toggle", scheduleHeightChecks);
-              }
-            });
+            bindDetails(doc);
             scheduleHeightChecks();
           });
 
