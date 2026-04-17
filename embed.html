@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Duralas Metiers Embed</title>
+  <title>Dùralas Métiers – Embed</title>
   <style>
     html, body {
       margin: 0;
@@ -17,7 +17,7 @@
       width: 100%;
       border: 0;
       background: transparent;
-      min-height: 200px;
+      min-height: 120px;
     }
 
     .embed-error {
@@ -38,11 +38,11 @@
       const params = new URLSearchParams(location.search);
       const rawPage = params.get("page") || "";
 
-      // Autorise uniquement les chemins internes du dépôt
-      // Exemples :
-      // Bucheron/BRessources.html
-      // Remede/RCrafts.html
-      // liste_membres.html
+      // Autorise uniquement des chemins internes du dépôt vers des .html
+      // Exemples valides :
+      // - Bucheron/BRessources.html
+      // - Chasse/ChasseQuests.html
+      // - liste_membres.html
       const safePath = /^(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+\.html$/;
 
       if (!safePath.test(rawPage)) {
@@ -61,7 +61,7 @@
           }
         }
       } catch (e) {
-        // Fallback silencieux
+        // Si le fichier est inaccessible, on garde la version par défaut
       }
 
       const target = new URL(rawPage, location.href);
@@ -73,7 +73,7 @@
         }
       }
 
-      // Ajoute la version globale
+      // Ajoute / remplace la version
       target.searchParams.set("v", version);
 
       const iframe = document.getElementById("inner");
@@ -93,7 +93,7 @@
             iframe.style.height = h + "px";
           }
 
-          // Informe le parent si un script veut écouter la hauteur
+          // Envoie la hauteur à la page parente (Forumactif)
           parent.postMessage(
             {
               type: "duralasmetiers:resize",
