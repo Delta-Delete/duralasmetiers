@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="../metiers-base.css">
 
   <script src="../mentions-autolink.js" defer></script>
+  <script src="../metiers-ui.js" defer></script>
 
   <style>
     .ecrafts-table th,
@@ -27,43 +28,97 @@
 <body>
 
   <div class="quest-accordion">
-    <table class="quest-table ecrafts-table">
-      <tr>
-        <th>Types d'enchantements craftables</th>
-        <th>Disciple</th>
-        <th>Initié</th>
-        <th>Adepte-en-chef</th>
-        <th>Chef de maison/Professeur</th>
-        <th>Enchanteur suprême</th>
-      </tr>
 
-      <tr>
-        <td><strong>Critique</strong></td>
-        <td><strong>Critique I</strong> : x3 défenses de sanglier + x5 minerais de fer + x1 rubis + x1 plante lance-pierre</td>
-        <td><strong>Critique II</strong> : x3 becs d'aigle + x5 minerais de cuivre + x1 saphir + x1 poisson d'eau douce + x1 blé doré</td>
-        <td><strong>Critique III</strong> : x3 dents de crocodile + x5 minerais d'argent + x1 branche de houx + x2 lierres</td>
-        <td><strong>Critique IV</strong> : x3 peaux cuirassées + x5 minerais d'or + x1 peau de troll des marais + x2 Darlingtona Aquatica</td>
-        <td><strong>Critique V</strong> : Critique II + x3 membranes de wyverne + x5 minerais de diamant + x1 poussière de fée + x2 Carnivoras Goliath</td>
-      </tr>
+    <details>
+      <summary>Critique</summary>
+      <table class="quest-table ecrafts-table">
+        <tr>
+          <th>Expérience</th>
+          <th>Types d'enchantements craftables</th>
+        </tr>
+        <tr>
+          <td>Disciple</td>
+          <td><strong>Critique I</strong> : x3 défenses de sanglier + x5 minerais de fer + x1 rubis + x1 plante lance-pierre</td>
+        </tr>
+        <tr>
+          <td>Initié</td>
+          <td><strong>Critique II</strong> : x3 becs d'aigle + x5 minerais de cuivre + x1 saphir + x1 poisson d'eau douce + x1 blé doré</td>
+        </tr>
+        <tr>
+          <td>Adepte-en-chef</td>
+          <td><strong>Critique III</strong> : x3 dents de crocodile + x5 minerais d'argent + x1 branche de houx + x2 lierres</td>
+        </tr>
+        <tr>
+          <td>Chef de maison/Professeur</td>
+          <td><strong>Critique IV</strong> : x3 peaux cuirassées + x5 minerais d'or + x1 peau de troll des marais + x2 Darlingtona Aquatica</td>
+        </tr>
+        <tr>
+          <td>Enchanteur suprême</td>
+          <td><strong>Critique V</strong> : Critique II + x3 membranes de wyverne + x5 minerais de diamant + x1 poussière de fée + x2 Carnivoras Goliath</td>
+        </tr>
+      </table>
+    </details>
 
-      <tr>
-        <td><strong>Résistance</strong></td>
-        <td><strong>Résistance I</strong> : x3 cuirs de sanglier + x5 bois de sureau + x1 minerai d'adamantium + x1 bonnet de fou</td>
-        <td><strong>Résistance II</strong> : x3 serres d'aigle + x5 bois de cerisier + x1 essence sylvestre + x1 poisson d'eau salée + x1 algue sitlantéenne</td>
-        <td><strong>Résistance III</strong> : x3 cuirs de crocodile + x5 bois de sapin + x1 lapis-lazuli + x2 roses des sables</td>
-        <td><strong>Résistance IV</strong> : x3 cornes de rhinocéros + x5 bois de chêne + x1 peau de troll des montagnes + x2 Mortensias violâtres</td>
-        <td><strong>Résistance V</strong> : Résistance II + x3 tibias de wyverne + x5 bois de baobab + x1 herbe médicinale + x2 arums des grands fonds</td>
-      </tr>
+    <details>
+      <summary>Résistance</summary>
+      <table class="quest-table ecrafts-table">
+        <tr>
+          <th>Expérience</th>
+          <th>Types d'enchantements craftables</th>
+        </tr>
+        <tr>
+          <td>Disciple</td>
+          <td><strong>Résistance I</strong> : x3 cuirs de sanglier + x5 bois de sureau + x1 minerai d'adamantium + x1 bonnet de fou</td>
+        </tr>
+        <tr>
+          <td>Initié</td>
+          <td><strong>Résistance II</strong> : x3 serres d'aigle + x5 bois de cerisier + x1 essence sylvestre + x1 poisson d'eau salée + x1 algue sitlantéenne</td>
+        </tr>
+        <tr>
+          <td>Adepte-en-chef</td>
+          <td><strong>Résistance III</strong> : x3 cuirs de crocodile + x5 bois de sapin + x1 lapis-lazuli + x2 roses des sables</td>
+        </tr>
+        <tr>
+          <td>Chef de maison/Professeur</td>
+          <td><strong>Résistance IV</strong> : x3 cornes de rhinocéros + x5 bois de chêne + x1 peau de troll des montagnes + x2 Mortensias violâtres</td>
+        </tr>
+        <tr>
+          <td>Enchanteur suprême</td>
+          <td><strong>Résistance V</strong> : Résistance II + x3 tibias de wyverne + x5 bois de baobab + x1 herbe médicinale + x2 arums des grands fonds</td>
+        </tr>
+      </table>
+    </details>
 
-      <tr>
-        <td><strong>Vitalité</strong></td>
-        <td><strong>Vitalité I</strong> : x2 défenses de sanglier + x2 cuirs de sanglier + x1 os doré + x1 edelweiss des neiges éternelles</td>
-        <td><strong>Vitalité II</strong> : x2 plumes d'aigle + x1 bec d'aigle + x1 serre d'aigle + x1 émeraude + x1 coquillage + x1 pivoine sanguine de Spelunca</td>
-        <td><strong>Vitalité III</strong> : x2 écailles de crocodile + x1 dent de crocodile + x1 cuir de crocodile + x1 opale + x1 lierre + x1 rose des sables</td>
-        <td><strong>Vitalité IV</strong> : x2 peaux cuirassées + x2 cornes de rhinocéros + x1 peau de troll des forêts + x2 orchidées de sang</td>
-        <td><strong>Vitalité V</strong> : Vitalité II + x2 écailles de wyverne + x1 membrane de wyverne + x1 tibia de wyverne + x1 écaille de salamandre de feu + x2 pivoines sauvages de Spelunca</td>
-      </tr>
-    </table>
+    <details>
+      <summary>Vitalité</summary>
+      <table class="quest-table ecrafts-table">
+        <tr>
+          <th>Expérience</th>
+          <th>Types d'enchantements craftables</th>
+        </tr>
+        <tr>
+          <td>Disciple</td>
+          <td><strong>Vitalité I</strong> : x2 défenses de sanglier + x2 cuirs de sanglier + x1 os doré + x1 edelweiss des neiges éternelles</td>
+        </tr>
+        <tr>
+          <td>Initié</td>
+          <td><strong>Vitalité II</strong> : x2 plumes d'aigle + x1 bec d'aigle + x1 serre d'aigle + x1 émeraude + x1 coquillage + x1 pivoine sanguine de Spelunca</td>
+        </tr>
+        <tr>
+          <td>Adepte-en-chef</td>
+          <td><strong>Vitalité III</strong> : x2 écailles de crocodile + x1 dent de crocodile + x1 cuir de crocodile + x1 opale + x1 lierre + x1 rose des sables</td>
+        </tr>
+        <tr>
+          <td>Chef de maison/Professeur</td>
+          <td><strong>Vitalité IV</strong> : x2 peaux cuirassées + x2 cornes de rhinocéros + x1 peau de troll des forêts + x2 orchidées de sang</td>
+        </tr>
+        <tr>
+          <td>Enchanteur suprême</td>
+          <td><strong>Vitalité V</strong> : Vitalité II + x2 écailles de wyverne + x1 membrane de wyverne + x1 tibia de wyverne + x1 écaille de salamandre de feu + x2 pivoines sauvages de Spelunca</td>
+        </tr>
+      </table>
+    </details>
+
   </div>
 
 </body>
