@@ -9,14 +9,13 @@
       margin: 0;
       padding: 0;
       background: transparent;
-      overflow: hidden;
+      overflow: auto;
     }
 
     #embed-frame {
       display: block;
       width: 100%;
       border: 0;
-      overflow: hidden;
       background: transparent;
     }
 
@@ -48,7 +47,6 @@
         return;
       }
 
-      // Sécurité simple : on n'autorise pas les URLs externes
       if (/^https?:\/\//i.test(page) || page.startsWith("//")) {
         errorBox.style.display = "block";
         errorBox.textContent = "URL externe refusée.";
@@ -57,29 +55,41 @@
 
       iframe.src = page;
 
-      function getInnerHeight() {
+      function getInnerDoc() {
         try {
-          const doc = iframe.contentDocument || iframe.contentWindow.document;
-          if (!doc) return 0;
-
-          const body = doc.body;
-          const html = doc.documentElement;
-
-          return Math.max(
-            body ? body.scrollHeight : 0,
-            body ? body.offsetHeight : 0,
-            html ? html.scrollHeight : 0,
-            html ? html.offsetHeight : 0,
-            html ? html.clientHeight : 0
-          );
+          return iframe.contentDocument || iframe.contentWindow.document;
         } catch (e) {
-          return 0;
+          return null;
         }
       }
 
+      function getInnerHeight() {
+        const doc = getInnerDoc();
+        if (!doc) return 0;
+
+        const body = doc.body;
+        const html = doc.documentElement;
+
+        return Math.max(
+          body ? body.scrollHeight : 0,
+          body ? body.offsetHeight : 0,
+          html ? html.scrollHeight : 0,
+          html ? html.offsetHeight : 0
+        );
+      }
+
       function sendHeight() {
+        const doc = getInnerDoc();
+        if (!doc) return;
+
+        const previousHeight = iframe.style.height;
+        iframe.style.height = "1px";
+
         const height = getInnerHeight();
-        if (!height) return;
+        if (!height) {
+          iframe.style.height = previousHeight;
+          return;
+        }
 
         iframe.style.height = height + "px";
 
@@ -89,52 +99,79 @@
         }, "*");
       }
 
+      function scheduleHeightChecks() {
+        requestAnimationFrame(sendHeight);
+        setTimeout(sendHeight, 20);
+        setTimeout(sendHeight, 80);
+        setTimeout(sendHeight, 180);
+        setTimeout(sendHeight, 350);
+      }
+
       function installObservers() {
+        const doc = getInnerDoc();
+        if (!doc) return;
+
+        const body = doc.body;
+        const html = doc.documentElement;
+
         try {
-          const doc = iframe.contentDocument || iframe.contentWindow.document;
-          if (!doc) return;
-
-          const body = doc.body;
-          const html = doc.documentElement;
-
-          if (body) {
-            const roBody = new ResizeObserver(sendHeight);
+          if (body && "ResizeObserver" in window) {
+            const roBody = new ResizeObserver(scheduleHeightChecks);
             roBody.observe(body);
           }
 
-          if (html) {
-            const roHtml = new ResizeObserver(sendHeight);
+          if (html && "ResizeObserver" in window) {
+            const roHtml = new ResizeObserver(scheduleHeightChecks);
             roHtml.observe(html);
           }
+        } catch (e) {}
 
-          iframe.contentWindow.addEventListener("load", sendHeight);
-          iframe.contentWindow.addEventListener("resize", sendHeight);
+        try {
+          iframe.contentWindow.addEventListener("load", scheduleHeightChecks);
+          iframe.contentWindow.addEventListener("resize", scheduleHeightChecks);
+        } catch (e) {}
 
-          const imgs = doc.images || [];
-          Array.from(imgs).forEach((img) => {
+        try {
+          Array.from(doc.images || []).forEach((img) => {
             if (!img.complete) {
-              img.addEventListener("load", sendHeight);
-              img.addEventListener("error", sendHeight);
+              img.addEventListener("load", scheduleHeightChecks);
+              img.addEventListener("error", scheduleHeightChecks);
             }
           });
+        } catch (e) {}
 
-          const fonts = doc.fonts;
-          if (fonts && fonts.ready) {
-            fonts.ready.then(sendHeight).catch(() => {});
+        try {
+          if (doc.fonts && doc.fonts.ready) {
+            doc.fonts.ready.then(scheduleHeightChecks).catch(() => {});
           }
+        } catch (e) {}
+
+        try {
+          doc.querySelectorAll("details").forEach((detail) => {
+            detail.addEventListener("toggle", scheduleHeightChecks);
+          });
+
+          const mo = new MutationObserver(() => {
+            doc.querySelectorAll("details").forEach((detail) => {
+              if (!detail.dataset.duralasToggleBound) {
+                detail.dataset.duralasToggleBound = "1";
+                detail.addEventListener("toggle", scheduleHeightChecks);
+              }
+            });
+            scheduleHeightChecks();
+          });
+
+          mo.observe(doc.body, {
+            childList: true,
+            subtree: true,
+            attributes: true
+          });
         } catch (e) {}
       }
 
       iframe.addEventListener("load", () => {
-        sendHeight();
+        scheduleHeightChecks();
         installObservers();
-
-        requestAnimationFrame(sendHeight);
-        setTimeout(sendHeight, 50);
-        setTimeout(sendHeight, 150);
-        setTimeout(sendHeight, 300);
-        setTimeout(sendHeight, 700);
-        setTimeout(sendHeight, 1200);
       });
     })();
   </script>
