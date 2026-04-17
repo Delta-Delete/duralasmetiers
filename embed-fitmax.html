@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Duralas Metiers Embed Fit Max</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      overflow: hidden;
+    }
+
+    #embed-frame {
+      display: block;
+      width: 100%;
+      border: 0;
+      background: transparent;
+    }
+
+    #embed-error {
+      display: none;
+      padding: 12px;
+      color: #dbcca8;
+      background: transparent;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <iframe id="embed-frame" scrolling="no"></iframe>
+  <div id="embed-error"></div>
+
+  <script>
+    (async function () {
+      const iframe = document.getElementById("embed-frame");
+      const errorBox = document.getElementById("embed-error");
+      const params = new URLSearchParams(window.location.search);
+      const page = params.get("page");
+      const max = Math.max(120, parseInt(params.get("max") || "800", 10) || 800);
+
+      if (!page) {
+        errorBox.style.display = "block";
+        errorBox.textContent = "Aucune page à afficher.";
+        return;
+      }
+
+      if (/^https?:\/\//i.test(page) || page.startsWith("//")) {
+        errorBox.style.display = "block";
+        errorBox.textContent = "URL externe refusée.";
+        return;
+      }
+
+      async function getGlobalVersion() {
+        try {
+          const res = await fetch("./version.json", { cache: "no-store" });
+          if (!res.ok) return Date.now();
+          const data = await res.json();
+          return data.version || Date.now();
+        } catch (e) {
+          return Date.now();
+        }
+      }
+
+      function withVersion(url, version) {
+        const sep = url.includes("?") ? "&" : "?";
+        return url + sep + "_embedv=" + encodeURIComponent(version);
+      }
+
+      function getInnerDoc() {
+        try {
+          return iframe.contentDocument || iframe.contentWindow.document;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function getInnerHeight() {
+        const doc = getInnerDoc();
+        if (!doc) return 0;
+
+        const body = doc.body;
+        const html = doc.documentElement;
+
+        return Math.max(
+          body ? body.scrollHeight : 0,
+          body ? body.offsetHeight : 0,
+          html ? html.scrollHeight : 0,
+          html ? html.offsetHeight : 0
+        );
+      }
+
+      function applyHeight() {
+        const doc = getInnerDoc();
+        if (!doc) return;
+
+        const previousHeight = iframe.style.height;
+        iframe.style.height = "1px";
+
+        const contentHeight = getInnerHeight();
+        if (!contentHeight) {
+          iframe.style.height = previousHeight;
+          return;
+        }
+
+        const effectiveHeight = Math.min(contentHeight, max);
+        const needsScroll = contentHeight > max;
+
+        iframe.style.height = effectiveHeight + "px";
+        iframe.setAttribute("scrolling", needsScroll ? "auto" : "no");
+        iframe.style.overflow = needsScroll ? "auto" : "hidden";
+
+        window.parent.postMessage({
+          type: "duralasmetiers:resize",
+          height: effectiveHeight
+        }, "*");
+      }
+
+      function scheduleHeightChecks() {
+        requestAnimationFrame(applyHeight);
+        setTimeout(applyHeight, 20);
+        setTimeout(applyHeight, 80);
+        setTimeout(applyHeight, 180);
+        setTimeout(applyHeight, 350);
+      }
+
+      function bindDetails(doc) {
+        doc.querySelectorAll("details").forEach((detail) => {
+          if (!detail.dataset.duralasToggleBound) {
+            detail.dataset.duralasToggleBound = "1";
+            detail.addEventListener("toggle", scheduleHeightChecks);
+          }
+        });
+      }
+
+      function installObservers() {
+        const doc = getInnerDoc();
+        if (!doc) return;
+
+        const body = doc.body;
+        const html = doc.documentElement;
+
+        try {
+          if (body && "ResizeObserver" in window) {
+            const roBody = new ResizeObserver(scheduleHeightChecks);
+            roBody.observe(body);
+          }
+
+          if (html && "ResizeObserver" in window) {
+            const roHtml = new ResizeObserver(scheduleHeightChecks);
+            roHtml.observe(html);
+          }
+        } catch (e) {}
+
+        try {
+          iframe.contentWindow.addEventListener("load", scheduleHeightChecks);
+          iframe.contentWindow.addEventListener("resize", scheduleHeightChecks);
+        } catch (e) {}
+
+        try {
+          Array.from(doc.images || []).forEach((img) => {
+            if (!img.complete) {
+              img.addEventListener("load", scheduleHeightChecks);
+              img.addEventListener("error", scheduleHeightChecks);
+            }
+          });
+        } catch (e) {}
+
+        try {
+          if (doc.fonts && doc.fonts.ready) {
+            doc.fonts.ready.then(scheduleHeightChecks).catch(() => {});
+          }
+        } catch (e) {}
+
+        try {
+          bindDetails(doc);
+
+          const mo = new MutationObserver(() => {
+            bindDetails(doc);
+            scheduleHeightChecks();
+          });
+
+          mo.observe(doc.body, {
+            childList: true,
+            subtree: true,
+            attributes: true
+          });
+        } catch (e) {}
+      }
+
+      const version = await getGlobalVersion();
+      iframe.src = withVersion(page, version);
+
+      iframe.addEventListener("load", () => {
+        scheduleHeightChecks();
+        installObservers();
+      });
+    })();
+  </script>
+
+</body>
+</html>
+
+<!-- <iframe src="https://delta-delete.github.io/duralasmetiers/embed-fitmax.html?page=Bricoleur/BricoleurCrafts.html&max=800" style="width:100%;height:800px;border:none;"></iframe> -->
