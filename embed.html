@@ -9,13 +9,7 @@
       margin: 0;
       padding: 0;
       background: transparent;
-      height: 100%;
       overflow: hidden;
-    }
-
-    html.duralas-scroll,
-    body.duralas-scroll {
-      overflow: auto;
     }
 
     #embed-frame {
@@ -23,6 +17,7 @@
       width: 100%;
       border: 0;
       background: transparent;
+      overflow: hidden;
     }
 
     #embed-error {
@@ -46,12 +41,6 @@
       const errorBox = document.getElementById("embed-error");
       const params = new URLSearchParams(window.location.search);
       const page = params.get("page");
-      const allowScroll = params.get("scroll") === "1";
-
-      if (allowScroll) {
-        document.documentElement.classList.add("duralas-scroll");
-        document.body.classList.add("duralas-scroll");
-      }
 
       if (!page) {
         errorBox.style.display = "block";
