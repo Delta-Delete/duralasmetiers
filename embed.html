@@ -9,6 +9,13 @@
       margin: 0;
       padding: 0;
       background: transparent;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    html.duralas-scroll,
+    body.duralas-scroll {
+      overflow: auto;
     }
 
     #embed-frame {
@@ -41,8 +48,10 @@
       const page = params.get("page");
       const allowScroll = params.get("scroll") === "1";
 
-      document.documentElement.style.overflow = allowScroll ? "auto" : "hidden";
-      document.body.style.overflow = allowScroll ? "auto" : "hidden";
+      if (allowScroll) {
+        document.documentElement.classList.add("duralas-scroll");
+        document.body.classList.add("duralas-scroll");
+      }
 
       if (!page) {
         errorBox.style.display = "block";
