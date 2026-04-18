@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FusionCrafts</title>
+
+  <base target="_top">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../duralas-base.css">
+  <link rel="stylesheet" href="../metiers-base.css">
+
+  <script src="../mentions-autolink.js" defer></script>
+  <script src="../metiers-ui.js" defer></script>
+
+  <style>
+    .fusioncrafts-table th,
+    .fusioncrafts-table td {
+      text-align: center;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quest-accordion">
+
+    <details>
+      <summary>Équipements offensifs</summary>
+      <table class="quest-table fusioncrafts-table">
+        <tr>
+          <th>Type</th>
+          <th>Coût</th>
+          <th>Bonus</th>
+        </tr>
+        <tr>
+          <td>Bâton arcanique / Bâton d'éther / Sceptre</td>
+          <td>1 gemme du Balrog + 1 ressource standard de spécialisation OU 2 métarias multicolores + 1 ressource standard de spécialisation</td>
+          <td>+50 dégâts</td>
+        </tr>
+        <tr>
+          <td>Deck</td>
+          <td>2 gemmes arlequines</td>
+          <td>+50 dégâts</td>
+        </tr>
+        <tr>
+          <td>Gantelet</td>
+          <td>2 gemmes corrompues</td>
+          <td>+2% absorption</td>
+        </tr>
+        <tr>
+          <td>Anneau</td>
+          <td>2 gemmes corrompues</td>
+          <td>+50 vitalité</td>
+        </tr>
+        <tr>
+          <td>Arme technologique / Tourelles</td>
+          <td>2 gemmes technophiles</td>
+          <td>+50 dégâts</td>
+        </tr>
+        <tr>
+          <td>Instrument</td>
+          <td>2 gemmes musicales</td>
+          <td>+50 dégâts</td>
+        </tr>
+        <tr>
+          <td>Arme sacrée</td>
+          <td>2 gemmes conjuratrices</td>
+          <td>+50 dégâts</td>
+        </tr>
+      </table>
+    </details>
+
+    <details>
+      <summary>Équipements défensifs</summary>
+      <table class="quest-table fusioncrafts-table">
+        <tr>
+          <th>Type</th>
+          <th>Coût</th>
+          <th>Bonus</th>
+        </tr>
+        <tr>
+          <td>Basique</td>
+          <td>/</td>
+          <td>+50 vitalité</td>
+        </tr>
+        <tr>
+          <td>Équipement Arlequin</td>
+          <td>2 gemmes arlequines</td>
+          <td>+50 vitalité</td>
+        </tr>
+        <tr>
+          <td>Équipement Corrompu</td>
+          <td>2 gemmes corrompues</td>
+          <td>+50 vitalité</td>
+        </tr>
+        <tr>
+          <td>Équipement Technologique</td>
+          <td>2 gemmes technologiques</td>
+          <td>+50 vitalité</td>
+        </tr>
+        <tr>
+          <td>Équipement sacré</td>
+          <td>2 gemmes sacré</td>
+          <td>+50 vitalité</td>
+        </tr>
+      </table>
+    </details>
+
+    <details>
+      <summary>Bottes</summary>
+      <table class="quest-table fusioncrafts-table">
+        <tr>
+          <th>Type</th>
+          <th>Coût</th>
+          <th>Bonus</th>
+        </tr>
+        <tr>
+          <td>Basique</td>
+          <td>/</td>
+          <td>+50 vitalité</td>
+        </tr>
+        <tr>
+          <td>Équipement Arlequin</td>
+          <td>2 gemmes arlequines</td>
+          <td>+50 vitesse</td>
+        </tr>
+        <tr>
+          <td>Équipement Corrompu</td>
+          <td>2 gemmes corrompues</td>
+          <td>+50 vitesse</td>
+        </tr>
+        <tr>
+          <td>Équipement Technologique</td>
+          <td>2 gemmes technologiques</td>
+          <td>+50 vitesse</td>
+        </tr>
+        <tr>
+          <td>Équipement sacré</td>
+          <td>2 gemmes sacré</td>
+          <td>+50 vitesse</td>
+        </tr>
+      </table>
+    </details>
+
+    <details>
+      <summary>Fusion</summary>
+      <table class="quest-table fusioncrafts-table">
+        <tr>
+          <th>Type</th>
+          <th>Coût</th>
+          <th>Bonus</th>
+        </tr>
+        <tr>
+          <td>Normale</td>
+          <td>2 armes à une main OU 3 armes à une main OU 1 arme à une main et 1 arme à deux mains</td>
+          <td>/</td>
+        </tr>
+        <tr>
+          <td>Khazarien</td>
+          <td>2 armes à une main OU 3 armes à une main OU 4 armes à une main OU 2 armes à deux mains OU 2 armes à une main et 1 arme à deux mains</td>
+          <td>Pioche à énergie bleu</td>
+        </tr>
+      </table>
+    </details>
+
+  </div>
+
+</body>
+</html>
