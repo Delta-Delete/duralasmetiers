@@ -6,11 +6,19 @@
   border: 1px solid #2a2a2a;
   box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 100px rgba(0,0,0,0.9);
   font-family: 'Philosopher', serif;
+
+  clear: both;
+  display: block;
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
 }
 
 .CodexV2-banner {
   position: relative;
   border-bottom: 2px solid #cf813a;
+  display: block;
+  z-index: 1;
 }
 
 .CodexV2-img-hero {
@@ -21,13 +29,28 @@
 
 .CodexV2-banner-overlay {
   position: absolute;
-  bottom: 0; left: 0; right: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   background: linear-gradient(to top, rgba(20,18,17,1) 10%, rgba(20,18,17,0.8) 60%, transparent);
   padding: 20px;
 }
 
-.CodexV2-badge-id { margin-top: 50px; margin-bottom: 25px; display: flex; justify-content: center; width: 100%; border-bottom: 2px solid #cf813a; padding-bottom: 0;}
-.CodexV2-title-img { height: 60px; filter: drop-shadow(0 -5px 10px rgba(0,0,0,0.8)); transform: translateY(2px); }
+.CodexV2-badge-id {
+  margin-top: 50px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 2px solid #cf813a;
+  padding-bottom: 0;
+}
+
+.CodexV2-title-img {
+  height: 60px;
+  filter: drop-shadow(0 -5px 10px rgba(0,0,0,0.8));
+  transform: translateY(2px);
+}
 
 .CodexV2-data-row {
   display: flex;
@@ -44,8 +67,19 @@
   min-width: 120px;
 }
 
-.CodexV2-data span { display: block; color: #a4927a; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 3px;}
-.CodexV2-data strong { color: #f0f0f0; font-size: 0.95rem; font-weight: normal; }
+.CodexV2-data span {
+  display: block;
+  color: #a4927a;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.CodexV2-data strong {
+  color: #f0f0f0;
+  font-size: 0.95rem;
+  font-weight: normal;
+}
 
 .CodexV2-body {
   padding: 40px;
@@ -53,6 +87,8 @@
   display: flex;
   flex-direction: column;
   gap: 50px;
+  position: relative;
+  z-index: 1;
 }
 
 .CodexV2-chapter.CodexV2-stack-layout {
@@ -64,12 +100,14 @@
 .CodexV2-icon-wrap {
   margin-bottom: 20px;
   z-index: 2;
+  position: relative;
 }
 
 .CodexV2-icon-wrap img {
   height: 60px;
   filter: drop-shadow(0 5px 10px rgba(0,0,0,0.8));
   transition: transform 0.3s;
+  display: block;
 }
 
 .CodexV2-icon-wrap img:hover {
@@ -89,13 +127,18 @@
   box-shadow: 0 10px 30px rgba(0,0,0,0.6);
   position: relative;
   margin-top: -30px;
+  z-index: 1;
+  overflow: hidden;
 }
 
 .CodexV2-text-wrap.CodexV2-full-width-box p:first-child {
   margin-top: 15px;
 }
 
-.CodexV2-text-wrap p { margin-top: 0; margin-bottom: 15px; }
+.CodexV2-text-wrap p {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
 
 .CodexV2-text-wrap p:first-child::first-letter {
   float: left;
@@ -133,9 +176,18 @@
   font-family: Arial, sans-serif;
   color: #cf813a;
   opacity: 0.25;
+  position: relative;
+  z-index: 1;
 }
 
 @media (max-width: 700px) {
-  .CodexV2-banner-overlay { position: static; background: #151515; }
-  .CodexV2-text-wrap.CodexV2-full-width-box { padding: 30px 20px; margin-top: -20px; }
+  .CodexV2-banner-overlay {
+    position: static;
+    background: #151515;
+  }
+
+  .CodexV2-text-wrap.CodexV2-full-width-box {
+    padding: 30px 20px;
+    margin-top: -20px;
+  }
 }
