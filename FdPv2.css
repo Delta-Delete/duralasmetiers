@@ -1,55 +1,46 @@
-.CodexV2-mural {
-  max-width: 900px;
-  margin: 28px auto 0;
-  padding-top: 18px;
+.CodexV2-mural, .CodexV2-mural * {
   box-sizing: border-box;
+}
+
+.CodexV2-mural {
+  display: flow-root;
+  clear: both;
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
   background-color: #1a1817;
   background-image: url("https://www.transparenttextures.com/patterns/crumpled-paper.png");
   border: 1px solid #2a2a2a;
   box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 100px rgba(0,0,0,0.9);
   font-family: 'Philosopher', serif;
-  clear: both;
-  display: block;
 }
 
 .CodexV2-banner {
-  position: relative;
+  display: grid;
   border-bottom: 2px solid #cf813a;
 }
 
 .CodexV2-img-hero {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
   opacity: 0.6;
 }
 
 .CodexV2-banner-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  align-self: end;
   background: linear-gradient(to top, rgba(20,18,17,1) 10%, rgba(20,18,17,0.8) 60%, transparent);
   padding: 20px;
+  z-index: 1;
 }
 
-.CodexV2-badge-id {
-  margin-top: 50px;
-  margin-bottom: 25px;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  border-bottom: 2px solid #cf813a;
-  padding-bottom: 0;
-  position: relative;
-  z-index: 2;
-}
-
-.CodexV2-title-img {
-  height: 60px;
-  display: block;
-  filter: drop-shadow(0 -5px 10px rgba(0,0,0,0.8));
-  transform: translateY(2px);
-}
+.CodexV2-badge-id { margin-top: 50px; margin-bottom: 25px; display: flex; justify-content: center; width: 100%; border-bottom: 2px solid #cf813a; padding-bottom: 0;}
+.CodexV2-title-img { height: 60px; filter: drop-shadow(0 -5px 10px rgba(0,0,0,0.8)); transform: translateY(2px); }
 
 .CodexV2-data-row {
   display: flex;
@@ -66,19 +57,8 @@
   min-width: 120px;
 }
 
-.CodexV2-data span {
-  display: block;
-  color: #a4927a;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  margin-bottom: 3px;
-}
-
-.CodexV2-data strong {
-  color: #f0f0f0;
-  font-size: 0.95rem;
-  font-weight: normal;
-}
+.CodexV2-data span { display: block; color: #a4927a; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 3px;}
+.CodexV2-data strong { color: #f0f0f0; font-size: 0.95rem; font-weight: normal; }
 
 .CodexV2-body {
   padding: 40px;
@@ -128,10 +108,7 @@
   margin-top: 15px;
 }
 
-.CodexV2-text-wrap p {
-  margin-top: 0;
-  margin-bottom: 15px;
-}
+.CodexV2-text-wrap p { margin-top: 0; margin-bottom: 15px; }
 
 .CodexV2-text-wrap p:first-child::first-letter {
   float: left;
@@ -172,18 +149,6 @@
 }
 
 @media (max-width: 700px) {
-  .CodexV2-mural {
-    margin-top: 22px;
-    padding-top: 14px;
-  }
-
-  .CodexV2-banner-overlay {
-    position: static;
-    background: #151515;
-  }
-
-  .CodexV2-text-wrap.CodexV2-full-width-box {
-    padding: 30px 20px;
-    margin-top: -20px;
-  }
+  .CodexV2-banner-overlay { position: static; background: #151515; }
+  .CodexV2-text-wrap.CodexV2-full-width-box { padding: 30px 20px; margin-top: -20px; }
 }
