@@ -1,0 +1,141 @@
+.codex-mural {
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: #1a1817;
+  background-image: url("https://www.transparenttextures.com/patterns/crumpled-paper.png");
+  border: 1px solid #2a2a2a;
+  box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 100px rgba(0,0,0,0.9);
+  font-family: 'Philosopher', serif;
+}
+
+.codex-banner {
+  position: relative;
+  border-bottom: 2px solid #cf813a;
+}
+
+.codex-img-hero {
+  width: 100%;
+  display: block;
+  opacity: 0.6;
+}
+
+.codex-banner-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(20,18,17,1) 10%, rgba(20,18,17,0.8) 60%, transparent);
+  padding: 20px;
+}
+
+.codex-badge-id { margin-top: 50px; margin-bottom: 25px; display: flex; justify-content: center; width: 100%; border-bottom: 2px solid #cf813a; padding-bottom: 0;}
+.codex-title-img { height: 60px; filter: drop-shadow(0 -5px 10px rgba(0,0,0,0.8)); transform: translateY(2px); }
+
+.codex-data-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.c-data {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid #444;
+  padding: 8px 12px;
+  border-radius: 4px;
+  flex: 1 1 auto;
+  min-width: 120px;
+}
+
+.c-data span { display: block; color: #a4927a; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 3px;}
+.c-data strong { color: #f0f0f0; font-size: 0.95rem; font-weight: normal; }
+
+.codex-body {
+  padding: 40px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.codex-chapter.stack-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.c-icon-wrap {
+  margin-bottom: 20px;
+  z-index: 2;
+}
+
+.c-icon-wrap img {
+  height: 60px;
+  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.8));
+  transition: transform 0.3s;
+}
+
+.c-icon-wrap img:hover {
+  transform: scale(1.1) translateY(-2px);
+}
+
+.c-text-wrap.full-width-box {
+  width: 100%;
+  background: rgba(20, 20, 20, 0.85);
+  padding: 35px 30px;
+  border: 1px solid #333;
+  border-top: 3px solid #cf813a;
+  border-bottom: 3px solid #cf813a;
+  color: #ccc;
+  line-height: 1.7;
+  text-align: justify;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  position: relative;
+  margin-top: -30px;
+}
+
+.c-text-wrap.full-width-box p:first-child {
+  margin-top: 15px;
+}
+
+.c-text-wrap p { margin-top: 0; margin-bottom: 15px; }
+
+.c-text-wrap p:first-child::first-letter {
+  float: left;
+  font-size: 3.5rem;
+  line-height: 0.65;
+  padding-top: 0;
+  margin-top: -0.22em;
+  margin-right: 8px;
+  margin-left: -2px;
+  color: #cf813a;
+  font-weight: bold;
+}
+
+.c-requis {
+  display: block;
+  font-size: 0.8rem;
+  color: #888;
+  font-style: italic;
+  border-top: 1px dashed #444;
+  padding-top: 10px;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.codex-credit {
+  text-align: right;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 0;
+  border-top: none;
+  letter-spacing: 1px;
+  font-size: 9px;
+  text-transform: none;
+  font-family: Arial, sans-serif;
+  color: #cf813a;
+  opacity: 0.25;
+}
+
+@media (max-width: 700px) {
+  .codex-banner-overlay { position: static; background: #151515; }
+  .c-text-wrap.full-width-box { padding: 30px 20px; margin-top: -20px; }
+}
