@@ -16,21 +16,27 @@
 }
 
 .CodexV2-banner {
-  position: relative;
+  display: grid;
   border-bottom: 2px solid #cf813a;
 }
 
 .CodexV2-img-hero {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
   opacity: 0.6;
 }
 
 .CodexV2-banner-overlay {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  align-self: end;
   background: linear-gradient(to top, rgba(20,18,17,1) 10%, rgba(20,18,17,0.8) 60%, transparent);
   padding: 20px;
+  z-index: 1;
 }
 
 .CodexV2-badge-id { margin-top: 50px; margin-bottom: 25px; display: flex; justify-content: center; width: 100%; border-bottom: 2px solid #cf813a; padding-bottom: 0;}
@@ -146,3 +152,4 @@
   .CodexV2-banner-overlay { position: static; background: #151515; }
   .CodexV2-text-wrap.CodexV2-full-width-box { padding: 30px 20px; margin-top: -20px; }
 }
+
