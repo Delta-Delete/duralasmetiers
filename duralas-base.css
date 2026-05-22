@@ -23,6 +23,11 @@ body {
   font-weight: bold;
   list-style: none;
   color: #dbcca8;
+  
+  /* CORRECTION FIREFOX */
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 
 .quest-accordion summary::-webkit-details-marker {
@@ -86,6 +91,12 @@ body {
   padding: 6px 8px;
   font-weight: bold;
   color: #dbcca8;
+  
+  /* CORRECTION FIREFOX */
+  cursor: pointer;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 
 .quest-members-list {
@@ -141,6 +152,11 @@ body {
   font-family: 'Philosopher', serif;
   font-size: 13px;
   cursor: pointer;
+  
+  /* CORRECTION FIREFOX */
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 
 .toggle-all-details:hover {
