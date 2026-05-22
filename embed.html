@@ -4,8 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Duralas Metiers Embed</title>
+
   <style>
-    html, body {
+    html,
+    body {
       margin: 0;
       padding: 0;
       background: transparent;
@@ -30,6 +32,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <iframe id="embed-frame" scrolling="no"></iframe>
@@ -41,6 +44,9 @@
       const errorBox = document.getElementById("embed-error");
       const params = new URLSearchParams(window.location.search);
       const page = params.get("page");
+
+      let lastHeight = 0;
+      let resizeTimeout = null;
 
       if (!page) {
         errorBox.style.display = "block";
@@ -58,6 +64,7 @@
         try {
           const res = await fetch("./version.json", { cache: "no-store" });
           if (!res.ok) return Date.now();
+
           const data = await res.json();
           return data.version || Date.now();
         } catch (e) {
@@ -85,27 +92,34 @@
         const body = doc.body;
         const html = doc.documentElement;
 
-        return Math.max(
+        const mainContent =
+          doc.querySelector(".quest-accordion") ||
+          doc.querySelector("main") ||
+          body;
+
+        const rectHeight = mainContent
+          ? mainContent.getBoundingClientRect().height
+          : 0;
+
+        return Math.ceil(Math.max(
+          rectHeight,
           body ? body.scrollHeight : 0,
           body ? body.offsetHeight : 0,
           html ? html.scrollHeight : 0,
           html ? html.offsetHeight : 0
-        );
+        )) + 8;
       }
 
       function sendHeight() {
         const doc = getInnerDoc();
         if (!doc) return;
 
-        const previousHeight = iframe.style.height;
-        iframe.style.height = "1px";
-
         const height = getInnerHeight();
-        if (!height) {
-          iframe.style.height = previousHeight;
-          return;
-        }
+        if (!height) return;
 
+        if (Math.abs(height - lastHeight) < 2) return;
+
+        lastHeight = height;
         iframe.style.height = height + "px";
 
         window.parent.postMessage({
@@ -115,18 +129,30 @@
       }
 
       function scheduleHeightChecks() {
+        clearTimeout(resizeTimeout);
+
         requestAnimationFrame(sendHeight);
-        setTimeout(sendHeight, 20);
-        setTimeout(sendHeight, 80);
-        setTimeout(sendHeight, 180);
-        setTimeout(sendHeight, 350);
+
+        setTimeout(sendHeight, 30);
+        setTimeout(sendHeight, 100);
+        setTimeout(sendHeight, 250);
+        setTimeout(sendHeight, 500);
+
+        resizeTimeout = setTimeout(sendHeight, 900);
       }
 
       function bindDetails(doc) {
         doc.querySelectorAll("details").forEach((detail) => {
           if (!detail.dataset.duralasToggleBound) {
             detail.dataset.duralasToggleBound = "1";
-            detail.addEventListener("toggle", scheduleHeightChecks);
+
+            detail.addEventListener("toggle", () => {
+              scheduleHeightChecks();
+            });
+
+            detail.addEventListener("click", () => {
+              scheduleHeightChecks();
+            });
           }
         });
       }
@@ -178,15 +204,21 @@
             scheduleHeightChecks();
           });
 
-          mo.observe(doc.body, {
-            childList: true,
-            subtree: true,
-            attributes: true
-          });
+          if (doc.body) {
+            mo.observe(doc.body, {
+              childList: true,
+              subtree: true,
+              attributes: true,
+              attributeFilter: ["open", "style", "class"]
+            });
+          }
         } catch (e) {}
+
+        scheduleHeightChecks();
       }
 
       const version = await getGlobalVersion();
+
       iframe.src = withVersion(page, version);
 
       iframe.addEventListener("load", () => {
