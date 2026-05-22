@@ -43,6 +43,11 @@ body {
   color: #ffffff;
   background: linear-gradient(to right, rgba(247, 233, 201, 0.08), rgba(247, 233, 201, 0.02));
   transition: background 0.2s ease;
+  
+  /* CORRECTION FIREFOX */
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 
 .quest-accordion summary:hover {
@@ -198,6 +203,12 @@ body {
   font-weight: 700;
   color: #e6d6b0;
   background: rgba(0, 0, 0, 0.28);
+
+  /* CORRECTION FIREFOX */
+  cursor: pointer;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 
 .quest-members summary:hover {
