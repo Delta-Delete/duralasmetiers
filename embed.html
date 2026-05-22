@@ -12,11 +12,13 @@
       padding: 0;
       background: transparent;
       overflow: hidden;
+      min-height: 0;
     }
 
     #embed-frame {
       display: block;
       width: 100%;
+      min-height: 1px;
       border: 0;
       background: transparent;
       overflow: hidden;
@@ -46,7 +48,7 @@
       const page = params.get("page");
 
       let lastHeight = 0;
-      let resizeTimeout = null;
+      let rafId = null;
 
       if (!page) {
         errorBox.style.display = "block";
@@ -85,37 +87,98 @@
         }
       }
 
-      function getInnerHeight() {
+      function toNumber(value) {
+        const number = parseFloat(value);
+        return Number.isFinite(number) ? number : 0;
+      }
+
+      function getContentHeight() {
         const doc = getInnerDoc();
-        if (!doc) return 0;
+        if (!doc || !doc.body) return 0;
 
-        const body = doc.body;
-        const html = doc.documentElement;
+        const win = iframe.contentWindow;
+        if (!win) return 0;
 
-        const mainContent =
-          doc.querySelector(".quest-accordion") ||
-          doc.querySelector("main") ||
-          body;
+        /*
+          Important :
+          On évite body.scrollHeight / html.scrollHeight comme mesure principale.
+          Dans un spoiler, ces valeurs peuvent inclure la hauteur déjà donnée à l'iframe,
+          ce qui provoque une boucle de croissance infinie.
+        */
 
-        const rectHeight = mainContent
-          ? mainContent.getBoundingClientRect().height
-          : 0;
+        const preferredRoots = [
+          doc.querySelector("[data-embed-root]"),
+          doc.querySelector(".quest-accordion"),
+          doc.querySelector(".metier-page"),
+          doc.querySelector(".page"),
+          doc.querySelector("main")
+        ].filter(Boolean);
 
-        return Math.ceil(Math.max(
-          rectHeight,
-          body ? body.scrollHeight : 0,
-          body ? body.offsetHeight : 0,
-          html ? html.scrollHeight : 0,
-          html ? html.offsetHeight : 0
-        )) + 8;
+        let height = 0;
+
+        function measureElement(element) {
+          if (!element) return;
+
+          const rect = element.getBoundingClientRect();
+          const style = win.getComputedStyle(element);
+
+          if (rect.width === 0 && rect.height === 0) return;
+
+          const scrollY =
+            win.scrollY ||
+            doc.documentElement.scrollTop ||
+            doc.body.scrollTop ||
+            0;
+
+          const marginBottom = toNumber(style.marginBottom);
+
+          height = Math.max(
+            height,
+            rect.bottom + scrollY + marginBottom
+          );
+        }
+
+        if (preferredRoots.length > 0) {
+          preferredRoots.forEach(measureElement);
+        } else {
+          Array.from(doc.body.children).forEach((element) => {
+            const tag = element.tagName.toLowerCase();
+
+            if (
+              tag === "script" ||
+              tag === "style" ||
+              tag === "link" ||
+              tag === "meta" ||
+              tag === "title" ||
+              tag === "base"
+            ) {
+              return;
+            }
+
+            measureElement(element);
+          });
+        }
+
+        if (!height) {
+          const bodyRect = doc.body.getBoundingClientRect();
+          height = bodyRect.height;
+        }
+
+        return Math.ceil(height) + 2;
       }
 
       function sendHeight() {
         const doc = getInnerDoc();
         if (!doc) return;
 
-        const height = getInnerHeight();
-        if (!height) return;
+        /*
+          Si l'iframe est dans un spoiler fermé, sa largeur peut être nulle.
+          On évite de calculer une fausse hauteur à ce moment-là.
+        */
+        if (window.innerWidth < 20) return;
+
+        const height = getContentHeight();
+        if (!height || height < 1) return;
 
         if (Math.abs(height - lastHeight) < 2) return;
 
@@ -129,56 +192,63 @@
       }
 
       function scheduleHeightChecks() {
-        clearTimeout(resizeTimeout);
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+        }
 
-        requestAnimationFrame(sendHeight);
+        rafId = requestAnimationFrame(() => {
+          rafId = null;
+          sendHeight();
+        });
 
-        setTimeout(sendHeight, 30);
-        setTimeout(sendHeight, 100);
-        setTimeout(sendHeight, 250);
-        setTimeout(sendHeight, 500);
-
-        resizeTimeout = setTimeout(sendHeight, 900);
+        setTimeout(sendHeight, 40);
+        setTimeout(sendHeight, 120);
+        setTimeout(sendHeight, 300);
+        setTimeout(sendHeight, 700);
       }
 
       function bindDetails(doc) {
         doc.querySelectorAll("details").forEach((detail) => {
-          if (!detail.dataset.duralasToggleBound) {
-            detail.dataset.duralasToggleBound = "1";
+          if (detail.dataset.duralasToggleBound) return;
 
-            detail.addEventListener("toggle", () => {
-              scheduleHeightChecks();
-            });
+          detail.dataset.duralasToggleBound = "1";
 
-            detail.addEventListener("click", () => {
-              scheduleHeightChecks();
-            });
-          }
+          detail.addEventListener("toggle", () => {
+            scheduleHeightChecks();
+          });
         });
       }
 
       function installObservers() {
         const doc = getInnerDoc();
-        if (!doc) return;
+        if (!doc || !doc.body) return;
 
         const body = doc.body;
         const html = doc.documentElement;
 
         try {
-          if (body && "ResizeObserver" in window) {
-            const roBody = new ResizeObserver(scheduleHeightChecks);
-            roBody.observe(body);
-          }
+          if ("ResizeObserver" in window) {
+            const resizeObserver = new ResizeObserver(() => {
+              scheduleHeightChecks();
+            });
 
-          if (html && "ResizeObserver" in window) {
-            const roHtml = new ResizeObserver(scheduleHeightChecks);
-            roHtml.observe(html);
+            resizeObserver.observe(body);
+
+            if (html) {
+              resizeObserver.observe(html);
+            }
           }
         } catch (e) {}
 
         try {
           iframe.contentWindow.addEventListener("load", scheduleHeightChecks);
           iframe.contentWindow.addEventListener("resize", scheduleHeightChecks);
+        } catch (e) {}
+
+        try {
+          window.addEventListener("resize", scheduleHeightChecks);
+          window.addEventListener("pageshow", scheduleHeightChecks);
+          document.addEventListener("visibilitychange", scheduleHeightChecks);
         } catch (e) {}
 
         try {
@@ -199,19 +269,17 @@
         try {
           bindDetails(doc);
 
-          const mo = new MutationObserver(() => {
+          const mutationObserver = new MutationObserver(() => {
             bindDetails(doc);
             scheduleHeightChecks();
           });
 
-          if (doc.body) {
-            mo.observe(doc.body, {
-              childList: true,
-              subtree: true,
-              attributes: true,
-              attributeFilter: ["open", "style", "class"]
-            });
-          }
+          mutationObserver.observe(body, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ["open", "style", "class"]
+          });
         } catch (e) {}
 
         scheduleHeightChecks();
@@ -230,5 +298,3 @@
 
 </body>
 </html>
-
-<!-- Ex: <iframe src="https://delta-delete.github.io/duralasmetiers/embed.html?page=Bricoleur/BricoleurCrafts.html" style="width:100%;height:800px;border:none;"></iframe> -->
