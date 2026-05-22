@@ -1,3 +1,8 @@
+/* CORRECTION FIREFOX 2 : Force la barre de scroll pour éviter le saut de page au clic */
+html {
+  overflow-y: scroll;
+}
+
 body {
   margin: 0;
   color: #dbcca8;
@@ -36,6 +41,9 @@ body {
 }
 
 .quest-accordion summary {
+  /* CORRECTION FIREFOX 2 : Stabilise la hitbox (zone de clic) */
+  display: block;
+  
   cursor: pointer;
   padding: 10px 14px;
   font-weight: 700;
@@ -44,7 +52,7 @@ body {
   background: linear-gradient(to right, rgba(247, 233, 201, 0.08), rgba(247, 233, 201, 0.02));
   transition: background 0.2s ease;
   
-  /* CORRECTION FIREFOX */
+  /* CORRECTION FIREFOX 1 */
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
@@ -199,12 +207,15 @@ body {
 }
 
 .quest-members summary {
+  /* CORRECTION FIREFOX 2 : Stabilise la hitbox (zone de clic) */
+  display: block;
+  
   padding: 8px 10px;
   font-weight: 700;
   color: #e6d6b0;
   background: rgba(0, 0, 0, 0.28);
 
-  /* CORRECTION FIREFOX */
+  /* CORRECTION FIREFOX 1 */
   cursor: pointer;
   user-select: none;
   -moz-user-select: none;
